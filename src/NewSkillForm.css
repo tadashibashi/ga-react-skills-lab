@@ -1,0 +1,18 @@
+form {
+    display: flex;
+    flex-flow: column nowrap;
+    row-gap: 3vmin;
+
+    border: var(--box-border);
+    border-radius: var(--box-border-radius);
+    padding: 1rem;
+}
+
+.input-group {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr;
+}
+
+
+
