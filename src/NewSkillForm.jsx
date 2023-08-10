@@ -18,16 +18,23 @@ export default function NewSkillForm() {
     }
 
     function handleSubmit(e) {
+        if (!skillName) return;
+
         setSkills(lastSkills => {
             const skills = lastSkills.map(skill => ({name: skill.name, level: skill.level}) );
             skills.push({name: skillName, level: parseInt(skillLevel) });
 
             return skills;
         });
+
+        setSkillName("");
     }
 
     return (
-        <form className="border-rounded-1 border-secondary">
+        <form className="border-rounded-1 border-secondary" onSubmit={e => {
+            e.preventDefault();
+            handleSubmit();
+        }}>
             {/* Skill Name Input */}
             <div className="input-group">
 
