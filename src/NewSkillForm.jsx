@@ -17,7 +17,7 @@ export default function NewSkillForm() {
         setSkillLevel(e.target.value);
     }
 
-    function handleSubmit(e) {
+    function handleSubmit() {
         if (!skillName) return;
 
         setSkills(lastSkills => {
@@ -43,7 +43,9 @@ export default function NewSkillForm() {
                        name="skill"
                        className="border-secondary border-rounded-1"
                        value={skillName}
-                       onChange={handleSkillInputChange}/>
+                       onChange={handleSkillInputChange}
+                       autoComplete="off"
+                />
             </div>
 
             {/* Skill Level Input */}
