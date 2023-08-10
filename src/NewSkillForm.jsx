@@ -7,7 +7,7 @@ export default function NewSkillForm() {
     const [skillName, setSkillName] = useState("");
     const [skillLevel, setSkillLevel] = useState("1");
 
-    const {setSkills} = useContext(SkillsContext);
+    const addSkill = useContext(SkillsContext);
 
     function handleSkillInputChange(e) {
         setSkillName(e.target.value);
@@ -20,12 +20,7 @@ export default function NewSkillForm() {
     function handleSubmit() {
         if (!skillName) return;
 
-        setSkills(lastSkills => {
-            const skills = lastSkills.map(skill => ({name: skill.name, level: skill.level}) );
-            skills.push({name: skillName, level: parseInt(skillLevel) });
-
-            return skills;
-        });
+        addSkill({name: skillName, level: skillLevel});
 
         setSkillName("");
     }

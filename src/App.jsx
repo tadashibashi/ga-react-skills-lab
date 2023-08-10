@@ -25,6 +25,15 @@ export default function App() {
     const [skills, setSkills] = useState(startingSkills);
     const [showTodos, setShowTodos] = useState(true);
 
+    function addSkill(skill) {
+        setSkills(lastSkills => {
+            const skills = lastSkills.map(skill => ({name: skill.name, level: skill.level}) );
+            skills.push({name: skill.name, level: parseInt(skill.level) });
+
+            return skills;
+        });
+    }
+
     return (
         <div className="App">
             <button onClick={() => setShowTodos(!showTodos)}>
@@ -34,7 +43,7 @@ export default function App() {
             <h1>React Dev Skills</h1>
             {showTodos &&  <SkillList items={skills} /> }
 
-            <SkillsContext.Provider value={{skills, setSkills}} >
+            <SkillsContext.Provider value={addSkill} >
                 <NewSkillForm />
             </SkillsContext.Provider>
         </div>
