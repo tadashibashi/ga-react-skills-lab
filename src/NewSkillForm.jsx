@@ -1,29 +1,27 @@
 import "./NewSkillForm.css";
-import React, {useContext, useState} from "react";
+import React, {useContext, useRef} from "react";
 import {SkillsContext} from "./App.jsx";
 
 export default function NewSkillForm() {
 
-    const [skillName, setSkillName] = useState("");
-    const [skillLevel, setSkillLevel] = useState("1");
-
+    const formData = useRef({name: "", level: "1"});
+    const nameInput = useRef();
     const addSkill = useContext(SkillsContext);
 
-    function handleSkillInputChange(e) {
-        setSkillName(e.target.value);
-    }
 
-    function handleSkillLevelChange(e) {
-        setSkillLevel(e.target.value);
+    function handleInputChange(e) {
+        formData.current[e.target.name] = e.target.value;
     }
 
     function handleSubmit() {
-        if (!skillName) return;
+        if (!formData.current.name) return;
 
-        addSkill && addSkill({name: skillName, level: skillLevel});
+        addSkill && addSkill({name: formData.current.name, level: formData.current.level});
 
-        setSkillName("");
+        nameInput.current.value = "";
+        formData.current.name = "";
     }
+
 
     return (
         <form className="border-rounded-1 border-secondary" onSubmit={e => {
@@ -35,11 +33,12 @@ export default function NewSkillForm() {
 
                 <label className="color-primary" htmlFor="id_skill">Skill</label>
                 <input id="id_skill"
-                       name="skill"
+                       ref={nameInput}
+                       name="name"
                        className="border-secondary border-rounded-1"
-                       value={skillName}
-                       onChange={handleSkillInputChange}
+                       onChange={handleInputChange}
                        autoComplete="off"
+                       required
                 />
             </div>
 
@@ -49,8 +48,7 @@ export default function NewSkillForm() {
                 <select id="id_level"
                         name="level"
                         className="border-secondary border-rounded-1"
-                        value={skillLevel}
-                        onChange={handleSkillLevelChange}>
+                        onChange={handleInputChange}>
 
                     <option key="level-opt-1">1</option>
                     <option key="level-opt-2">2</option>
@@ -61,9 +59,9 @@ export default function NewSkillForm() {
             </div>
 
             <input className="btn-primary color-light border-rounded-1 border-none p-1"
-                   type="button"
+                   type="submit"
                    value="ADD SKILL"
-                   onClick={handleSubmit} />
+                    />
         </form>
     );
 }
