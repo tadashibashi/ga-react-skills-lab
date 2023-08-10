@@ -20,7 +20,7 @@ export default function NewSkillForm() {
     function handleSubmit() {
         if (!skillName) return;
 
-        addSkill({name: skillName, level: skillLevel});
+        addSkill && addSkill({name: skillName, level: skillLevel});
 
         setSkillName("");
     }
