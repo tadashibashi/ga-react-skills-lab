@@ -1,6 +1,4 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, {createContext, useState} from 'react'
 import './App.css'
 
 import SkillList from "./SkillList";
@@ -21,29 +19,24 @@ const startingSkills = [
     }
 ];
 
-function App() {
-      const [skills, setSkills] = useState(startingSkills);
-      const [showTodos, setShowTodos] = useState(true);
+export const SkillsContext = createContext(null);
 
-      function showTodosClickHandler(evt) {
-          setShowTodos(value => {
-              if (value)
-                  evt.target.innerText = "Show Todos";
-              else
-                  evt.target.innerText = "Hide Todos";
-              return !value;
-          });
+export default function App() {
+    const [skills, setSkills] = useState(startingSkills);
+    const [showTodos, setShowTodos] = useState(true);
 
-      }
-
-  return (
+    return (
         <div className="App">
-            <button onClick={showTodosClickHandler}>Hide Todos</button>
-            <h1>React Dev Skills</h1>
-            {showTodos && <SkillList items={skills}/>}
-            <NewSkillForm />
-        </div>
-  );
-}
+            <button onClick={() => setShowTodos(!showTodos)}>
+                {showTodos ? "Hide Todos" : "Show Todos"}
+            </button>
 
-export default App;
+            <h1>React Dev Skills</h1>
+            {showTodos &&  <SkillList items={skills} /> }
+
+            <SkillsContext.Provider value={{skills, setSkills}} >
+                <NewSkillForm />
+            </SkillsContext.Provider>
+        </div>
+    );
+}
