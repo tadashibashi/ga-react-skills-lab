@@ -4,30 +4,41 @@ import {SkillsContext} from "./App.jsx";
 
 export default function NewSkillForm() {
 
+    // using a ref to keep track of form data: no special state validation needed
     const formData = useRef({name: "", level: "1"});
+    // reference to name <input>, to reset on submit
     const nameInput = useRef();
+    // function to add a skill to the list, passed from App
     const addSkill = useContext(SkillsContext);
 
 
+    // handles changes for all inputs
     function handleInputChange(e) {
+        // collect form data on the fly
         formData.current[e.target.name] = e.target.value;
     }
 
-    function handleSubmit() {
+
+    // handles form submissions
+    function handleSubmit(e) {
+        // don't POST to "/"
+        e.preventDefault();
+
+        // ensure name is filled in
         if (!formData.current.name) return;
 
+        // call addSkill from SkillsContext
         addSkill && addSkill({name: formData.current.name, level: formData.current.level});
 
+        // clear form & formData for skill "name"
         nameInput.current.value = "";
         formData.current.name = "";
     }
 
 
     return (
-        <form className="border-rounded-1 border-secondary" onSubmit={e => {
-            e.preventDefault();
-            handleSubmit();
-        }}>
+        <form className="border-rounded-1 border-secondary" onSubmit={handleSubmit}>
+
             {/* Skill Name Input */}
             <div className="input-group">
 
